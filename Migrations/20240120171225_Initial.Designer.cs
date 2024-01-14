@@ -12,7 +12,7 @@ using UserMicroservice.Data;
 namespace UserMicroservice.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240113191320_Initial")]
+    [Migration("20240120171225_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -234,7 +234,7 @@ namespace UserMicroservice.Migrations
             modelBuilder.Entity("UserMicroservice.Models.Review", b =>
                 {
                     b.HasOne("UserMicroservice.Models.Livre", "Livre")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("LivreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -253,6 +253,8 @@ namespace UserMicroservice.Migrations
             modelBuilder.Entity("UserMicroservice.Models.Livre", b =>
                 {
                     b.Navigation("LivreUsers");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Owner", b =>

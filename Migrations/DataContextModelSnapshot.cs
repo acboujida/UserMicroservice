@@ -49,7 +49,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Annonces", (string)null);
+                    b.ToTable("Annonces");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Livre", b =>
@@ -74,7 +74,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Livres", (string)null);
+                    b.ToTable("Livres");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.LivreUser", b =>
@@ -94,7 +94,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LivreUsers", (string)null);
+                    b.ToTable("LivreUsers");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Owner", b =>
@@ -118,7 +118,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Owners", (string)null);
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Review", b =>
@@ -155,7 +155,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.User", b =>
@@ -187,7 +187,7 @@ namespace UserMicroservice.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Annonce", b =>
@@ -231,7 +231,7 @@ namespace UserMicroservice.Migrations
             modelBuilder.Entity("UserMicroservice.Models.Review", b =>
                 {
                     b.HasOne("UserMicroservice.Models.Livre", "Livre")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("LivreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -250,6 +250,8 @@ namespace UserMicroservice.Migrations
             modelBuilder.Entity("UserMicroservice.Models.Livre", b =>
                 {
                     b.Navigation("LivreUsers");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("UserMicroservice.Models.Owner", b =>

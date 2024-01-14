@@ -128,6 +128,5 @@ namespace UserMicroservice.Controllers
 
             return NoContent();
         }
-        
     }
 }
