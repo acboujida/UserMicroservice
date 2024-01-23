@@ -35,7 +35,7 @@ namespace UserMicroservice.Controllers
         [ProducesResponseType(200, Type = typeof(UserDTO))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(string id)
         {
             var user = _mapper.Map<UserDTO>(_userRepository.GetUser(id));
 
@@ -50,7 +50,7 @@ namespace UserMicroservice.Controllers
         [ProducesResponseType(200, Type = typeof(UserDTO))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUser(string name)
+        public IActionResult GetUserByName(string name)
         {
             var user = _mapper.Map<UserDTO>(_userRepository.GetUser(name));
 
@@ -65,7 +65,7 @@ namespace UserMicroservice.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDTO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetReviewsOfUser(int id)
+        public IActionResult GetReviewsOfUser(string id)
         {
             var reviews = _mapper.Map<List<ReviewDTO>>(_userRepository.GetReviewsOfUser(id));
 
@@ -109,7 +109,7 @@ namespace UserMicroservice.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(string id)
         {
             if(!_userRepository.UserExists(id))
             {
@@ -128,5 +128,6 @@ namespace UserMicroservice.Controllers
 
             return NoContent();
         }
+
     }
 }

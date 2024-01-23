@@ -61,7 +61,7 @@ namespace UserMicroservice.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{id}/Livre")]
+/*        [HttpGet("{id}/Livre")]
         [ProducesResponseType(200, Type = typeof(LivreDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -74,6 +74,6 @@ namespace UserMicroservice.Controllers
             if (!_reviewRepository.ReviewExists(id)) return BadRequest(ModelState);
 
             return Ok(livre);
-        }
+        }*/
     }
 }

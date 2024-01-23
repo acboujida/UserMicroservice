@@ -10,7 +10,6 @@ namespace UserMicroservice.Mapper
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<Review, ReviewDTO>().ReverseMap();
-            CreateMap<Livre, LivreDTO>().ReverseMap();
         }
     }
 }

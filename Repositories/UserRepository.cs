@@ -1,4 +1,5 @@
-﻿using UserMicroservice.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using UserMicroservice.Data;
 using UserMicroservice.Interfaces;
 using UserMicroservice.Models;
 
@@ -13,14 +14,14 @@ namespace UserMicroservice.Repositories
             _dataContext = dataContext;
         }
 
-        public User GetUser(int id)
+        public User GetUser(string id)
         {
             return _dataContext.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public User GetUser(string name)
+        public User GetUserByName(string username)
         {
-            return _dataContext.Users.FirstOrDefault(u => ((u.LastName.ToUpper().Trim() == name.ToUpper().Trim()) || (u.FirstName.ToUpper().Trim() == name.ToUpper().Trim())));
+            return _dataContext.Users.FirstOrDefault(u => ((u.UserName.ToUpper().Trim() == username.ToUpper().Trim())));
         }
 
         public ICollection<User> GetUsers()
@@ -28,17 +29,17 @@ namespace UserMicroservice.Repositories
             return _dataContext.Users.OrderBy(u => u.Id).ToList();
         }
 
-        public bool UserExists(int id)
+        public bool UserExists(string id)
         {
             return _dataContext.Users.Any(u => u.Id == id);
         }
 
-        public bool UserExists(string name)
+        public bool UserExistsByName(string username)
         {
-            return _dataContext.Users.Any(u => ((u.LastName.ToUpper().Trim() == name.ToUpper().Trim()) || (u.FirstName.ToUpper().Trim() == name.ToUpper().Trim())));
+            return _dataContext.Users.Any(u => ((u.UserName.ToUpper().Trim() == username.ToUpper().Trim())));
         }
 
-        public ICollection<Review> GetReviewsOfUser(int id)
+        public ICollection<Review> GetReviewsOfUser(string id)
         {
             return _dataContext.Reviews.Where(r => r.User.Id == id).OrderBy(r => r.Id).ToList();
         }
@@ -60,6 +61,16 @@ namespace UserMicroservice.Repositories
             _dataContext.Remove(user);
 
             return Save();
+        }
+
+        public ICollection<OwnedBook> GetOwnedBooksOfUser(string id)
+        {
+            return _dataContext.OwnedBooks.Where(b => b.OwnerId == id).ToList();
+        }
+
+        public ICollection<BorrowedBook> GetBorrowedBooksOfUser(string id)
+        {
+            return _dataContext.BorrowedBooks.Where(b => b.BorrowerId == id).ToList();
         }
     }
 }

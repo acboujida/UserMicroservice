@@ -8,6 +8,6 @@ namespace UserMicroservice.Interfaces
         Review GetReview(int id);
         bool ReviewExists(int id);
         User GetUserOfReview(int id);
-        Livre GetLivreOfReview(int id);
+        string GetBookOfReview(int id);
     }
 }

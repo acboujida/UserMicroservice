@@ -32,9 +32,9 @@ namespace UserMicroservice.Repositories
             return _dataContext.Reviews.Where(r => r.Id == id).Select(r => r.User).FirstOrDefault();
         }
 
-        public Livre GetLivreOfReview(int id)
+        public string GetBookOfReview(int id)
         {
-            return _dataContext.Reviews.Where(r => r.Id == id).Select(r => r.Livre).FirstOrDefault();
+            return _dataContext.Reviews.Where(r => r.Id == id).Select(r => r.BookId).FirstOrDefault();
         }
     }
 }
