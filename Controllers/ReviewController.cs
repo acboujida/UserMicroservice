@@ -2,6 +2,11 @@
 using AutoMapper;
 using UserMicroservice.Interfaces;
 using UserMicroservice.DTO;
+using UserMicroservice.Models;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using UserMicroservice.Authorizations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UserMicroservice.Controllers
 {
@@ -10,11 +15,13 @@ namespace UserMicroservice.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ReviewController(IReviewRepository reviewRepository, IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository, IUserRepository userRepository, IMapper mapper)
         {
             _reviewRepository = reviewRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -61,19 +68,50 @@ namespace UserMicroservice.Controllers
             return Ok(user);
         }
 
-/*        [HttpGet("{id}/Livre")]
-        [ProducesResponseType(200, Type = typeof(LivreDTO))]
+        [Authorize]
+        [HttpPost]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetLivreOfReview(int id)
+        public IActionResult CreateReview([FromBody] ReviewDTO reviewdto, [FromQuery] string bookId)
         {
-            var livre = _mapper.Map<LivreDTO>(_reviewRepository.GetLivreOfReview(id));
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!_reviewRepository.ReviewExists(id)) return BadRequest(ModelState);
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return Ok(livre);
-        }*/
+            var reviewmodel = _mapper.Map<Review>(reviewdto);
+
+            reviewmodel.User = _userRepository.GetUser(userId);
+
+            if (!_reviewRepository.CreateReview(reviewmodel))
+            {
+                ModelState.AddModelError("", "Adding review failed!");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Added succefully");
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReview([FromBody] ReviewDTO reviewDTO, int id)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            if(!_reviewRepository.ReviewExists(id)) return NotFound();
+
+            var review = _mapper.Map<Review>(reviewDTO);
+
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!_reviewRepository.IsUserReviewOwner(id, userId)) return Forbid();
+
+            if(!_reviewRepository.UpdateReview(review)) return StatusCode(500, "Error while saving item");
+
+            return Ok("Review updated successfully");
+        }
+   
     }
 }

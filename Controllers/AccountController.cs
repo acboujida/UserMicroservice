@@ -22,7 +22,7 @@ namespace UserMicroservice.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login(LoginDTO loginDTO)
+        public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -36,7 +36,7 @@ namespace UserMicroservice.Controllers
 
             var token = _tokenService.CreateToken(user);
 
-            return Ok(token);
+            return Ok(new { Token = token });
         }
 
         [HttpPost("register")]
