@@ -6,6 +6,7 @@ namespace UserMicroservice.DTO
     {
         public int Id { get; set; }
         public string BorrowerId { get; set; }
+        public int OwnedBookId { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public string BookId { get; set; }

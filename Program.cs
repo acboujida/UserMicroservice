@@ -18,6 +18,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IBorrowedBookRepository, BorrowedBookRepository>();
+builder.Services.AddScoped<IOwnedBookRepository, OwnedBookRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

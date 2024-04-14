@@ -9,12 +9,12 @@ namespace UserMicroservice.Mapper
         {
             return new BorrowedBookDTO
             {
-                BookId = book.Book.BookId,
+                /*BookId = book.Book.BookId,
                 Title = book.Book.Title,
                 Description = book.Book.Description,
                 Id = book.Id,
                 BorrowDate = book.BorrowDate,
-                ReturnDate = book.ReturnDate
+                ReturnDate = book.ReturnDate*/
             };
     
         }   
